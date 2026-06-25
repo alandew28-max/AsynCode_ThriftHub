@@ -1,0 +1,84 @@
+[1mdiff --git a/nbproject/private/private.properties b/nbproject/private/private.properties[m
+[1mindex 4bd0a0d..62fa18b 100644[m
+[1m--- a/nbproject/private/private.properties[m
+[1m+++ b/nbproject/private/private.properties[m
+[36m@@ -1,2 +1,2 @@[m
+ compile.on.save=true[m
+[31m-user.properties.file=C:\\Users\\Alan Dewa\\AppData\\Roaming\\NetBeans\\29\\build.properties[m
+[32m+[m[32muser.properties.file=C:\\Users\\LOQ\\AppData\\Roaming\\NetBeans\\30\\build.properties[m
+[1mdiff --git a/nbproject/project.properties b/nbproject/project.properties[m
+[1mindex 62e0fdf..03738bd 100644[m
+[1m--- a/nbproject/project.properties[m
+[1m+++ b/nbproject/project.properties[m
+[36m@@ -34,13 +34,17 @@[m [mdist.jlink.dir=${dist.dir}/jlink[m
+ dist.jlink.output=${dist.jlink.dir}/AsynCode_ThriftHub[m
+ excludes=[m
+ file.reference.jcalendar-1.4.jar=D:\\Download\\jcalendar-1.4\\lib\\jcalendar-1.4.jar[m
+[32m+[m[32mfile.reference.jcalendar-1.4.jar-1=C:\\Users\\LOQ\\Downloads\\jcalendar-1.4\\lib\\jcalendar-1.4.jar[m
+[32m+[m[32mfile.reference.mysql-connector-j-9.7.0.jar=C:\\Users\\LOQ\\OneDrive\\Documents\\NetBeansProjects\\BukuKu_1402025028\\mysql-connector-j-9.7.0 (1)\\mysql-connector-j-9.7.0\\mysql-connector-j-9.7.0.jar[m
+ file.reference.mysql-connector-java-8.0.22.jar=D:\\Download\\mysql-connector-java-8.0.22.jar[m
+ includes=**[m
+ jar.compress=false[m
+ javac.classpath=\[m
+     ${file.reference.mysql-connector-java-8.0.22.jar}:\[m
+     ${file.reference.jcalendar-1.4.jar}:\[m
+[31m-    ${libs.absolutelayout.classpath}[m
+[32m+[m[32m    ${libs.absolutelayout.classpath}:\[m
+[32m+[m[32m    ${file.reference.mysql-connector-j-9.7.0.jar}:\[m
+[32m+[m[32m    ${file.reference.jcalendar-1.4.jar-1}[m
+ # Space-separated list of extra javac options[m
+ javac.compilerargs=[m
+ javac.deprecation=false[m
+[1mdiff --git a/src/Library/jcalendar-1.4.jar b/src/Library/jcalendar-1.4.jar[m
+[1mdeleted file mode 100644[m
+[1mindex 617a335..0000000[m
+Binary files a/src/Library/jcalendar-1.4.jar and /dev/null differ
+[1mdiff --git a/src/Library/mysql-connector-java-8.0.22.jar b/src/Library/mysql-connector-java-8.0.22.jar[m
+[1mdeleted file mode 100644[m
+[1mindex 412d81f..0000000[m
+Binary files a/src/Library/mysql-connector-java-8.0.22.jar and /dev/null differ
+[1mdiff --git a/src/asyncode_thrifthub/AsynCode_ThriftHub.java b/src/asyncode_thrifthub/AsynCode_ThriftHub.java[m
+[1mindex 4a159fc..33bbabc 100644[m
+[1m--- a/src/asyncode_thrifthub/AsynCode_ThriftHub.java[m
+[1m+++ b/src/asyncode_thrifthub/AsynCode_ThriftHub.java[m
+[36m@@ -4,11 +4,13 @@[m
+  */[m
+ package asyncode_thrifthub;[m
+ import form.Beranda;[m
+[32m+[m
+[32m+[m
+ /**[m
+  *[m
+  * @author Alan Dewa[m
+  */[m
+[31m-public class AsynCode_ThriftHub {[m
+[32m+[m[32mpublic class AsynCode_ThriftHub  {[m
+ [m
+     /**[m
+      * @param args the command line arguments[m
+[36m@@ -16,6 +18,7 @@[m [mpublic class AsynCode_ThriftHub {[m
+     public static void main(String[] args) {[m
+         [m
+     java.awt.EventQueue.invokeLater(new Runnable() {[m
+[32m+[m[32m        @Override[m
+         public void run() {[m
+             new Beranda().setVisible(true);[m
+         }[m
+[1mdiff --git a/src/form/AdminPenjual.form b/src/form/AdminPenjual.form[m
+[1mindex a4841ea..e3b35cd 100644[m
+[1m--- a/src/form/AdminPenjual.form[m
+[1m+++ b/src/form/AdminPenjual.form[m
+[36m@@ -23,18 +23,18 @@[m
+   <Layout>[m
+     <DimensionLayout dim="0">[m
+       <Group type="103" groupAlignment="0" attributes="0">[m
+[31m-          <Group type="102" alignment="0" attributes="0">[m
+[31m-              <EmptySpace max="-2" attributes="0"/>[m
+[32m+[m[32m          <Group type="102" alignment="1" attributes="0">[m
+[32m+[m[32m              <EmptySpace min="0" pref="11" max="32767" attributes="0"/>[m
+               <Component id="jScrollPane1" min="-2" pref="1082" max="-2" attributes="0"/>[m
+[31m-              <EmptySpace max="32767" attributes="0"/>[m
+           </Group>[m
+       </Group>[m
+     </DimensionLayout>[m
+     <DimensionLayout dim="1
