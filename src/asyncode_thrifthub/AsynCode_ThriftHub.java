@@ -4,6 +4,7 @@
  */
 package asyncode_thrifthub;
 import form.Beranda;
+import form.dashboard;
 /**
  *
  * @author Alan Dewa
@@ -17,7 +18,7 @@ public class AsynCode_ThriftHub {
         
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            new Beranda().setVisible(true);
+            new dashboard().setVisible(true);
         }
     });
 }    }

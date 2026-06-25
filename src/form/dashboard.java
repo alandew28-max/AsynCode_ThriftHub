@@ -91,7 +91,7 @@ public class dashboard extends javax.swing.JFrame {
         jCheckBox1.addActionListener(this::jCheckBox1ActionPerformed);
 
         jButton1.setBackground(new java.awt.Color(0, 102, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Login");
         jButton1.addActionListener(this::jButton1ActionPerformed);
@@ -144,13 +144,13 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addGap(137, 137, 137))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,7 +246,7 @@ public class dashboard extends javax.swing.JFrame {
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
                     this.dispose();
-                    new form.registrasi().setVisible(true);
+                    new form.Beranda().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
                 }
