@@ -25,6 +25,12 @@ public class registrasi extends javax.swing.JFrame {
      */
     public registrasi() {
         initComponents();
+        // Isi ComboBox dengan pilihan User dan Admin
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
+        "",
+        "User",
+        "Admin"
+        }));
     }
 
     /**
@@ -48,7 +54,7 @@ public class registrasi extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +86,7 @@ public class registrasi extends javax.swing.JFrame {
         jButton1.setText("Login");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,7 +105,7 @@ public class registrasi extends javax.swing.JFrame {
                         .addGap(82, 82, 82)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
@@ -107,7 +113,9 @@ public class registrasi extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(85, 85, 85)
                 .addComponent(jLabel2)
@@ -126,9 +134,10 @@ public class registrasi extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,11 +173,14 @@ public class registrasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         String email = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword());
-        String role = jTextField2.getText().trim();
+        String loginSebagai = jComboBox1.getSelectedItem().toString();
 
-        if (email.isEmpty() || password.isEmpty() || role.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!");
-            return;
+        if (email.isEmpty() || password.isEmpty() || loginSebagai.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Semua kolom wajib diisi!",
+                "Peringatan",
+                JOptionPane.WARNING_MESSAGE);
+                return;
         }
 
          if (!email.contains("@")) {
@@ -224,7 +236,7 @@ public class registrasi extends javax.swing.JFrame {
             try (PreparedStatement ps = conn.prepareStatement(query)) {
                 ps.setString(1, email);
                 ps.setString(2, hashedPassword); // password tersimpan dalam bentuk hash
-                ps.setString(3, role);
+                ps.setString(3, loginSebagai);
 
                 int result = ps.executeUpdate();
                 if (result > 0) {
@@ -241,9 +253,9 @@ public class registrasi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jComboBox1ActionPerformed
     
 
     /**
@@ -284,6 +296,7 @@ public class registrasi extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -293,7 +306,6 @@ public class registrasi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
   

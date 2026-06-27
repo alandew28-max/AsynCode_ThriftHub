@@ -83,7 +83,7 @@
                       <Component id="jCheckBox6" max="32767" attributes="0"/>
                       <Component id="jCheckBox3" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="275" max="32767" attributes="0"/>
+                  <EmptySpace pref="279" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -146,13 +146,10 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
+              <Border info="null"/>
             </Property>
-            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/t-shrit.png"/>
+              <Image iconType="3" name="/img/t-shirt.png"/>
             </Property>
           </Properties>
           <Events>
@@ -161,7 +158,12 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox2">
           <Properties>
-            <Property name="borderPainted" type="boolean" value="true"/>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/kemeja.png"/>
             </Property>
@@ -191,9 +193,11 @@
         <Component class="javax.swing.JCheckBox" name="jCheckBox4">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="borderPainted" type="boolean" value="true"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/sepatu.png"/>
             </Property>
@@ -218,7 +222,13 @@
         <Component class="javax.swing.JCheckBox" name="jCheckBox6">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/celana.png"/>

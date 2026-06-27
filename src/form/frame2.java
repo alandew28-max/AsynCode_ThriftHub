@@ -51,12 +51,12 @@ public class frame2 extends javax.swing.JFrame {
 
         jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jCheckBox1.setBorderPainted(true);
-        jCheckBox1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/t-shrit.png"))); // NOI18N
+        jCheckBox1.setBorder(null);
+        jCheckBox1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/t-shirt.png"))); // NOI18N
         jCheckBox1.addActionListener(this::jCheckBox1ActionPerformed);
 
-        jCheckBox2.setBorderPainted(true);
+        jCheckBox2.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBox2.setBorder(null);
         jCheckBox2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/kemeja.png"))); // NOI18N
         jCheckBox2.addActionListener(this::jCheckBox2ActionPerformed);
 
@@ -65,8 +65,8 @@ public class frame2 extends javax.swing.JFrame {
         jCheckBox3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/polo.png"))); // NOI18N
         jCheckBox3.addActionListener(this::jCheckBox3ActionPerformed);
 
-        jCheckBox4.setBackground(new java.awt.Color(0, 0, 0));
-        jCheckBox4.setBorderPainted(true);
+        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
+        jCheckBox4.setBorder(null);
         jCheckBox4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sepatu.png"))); // NOI18N
         jCheckBox4.addActionListener(this::jCheckBox4ActionPerformed);
 
@@ -74,7 +74,9 @@ public class frame2 extends javax.swing.JFrame {
         jCheckBox5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hoodei.png"))); // NOI18N
         jCheckBox5.addActionListener(this::jCheckBox5ActionPerformed);
 
-        jCheckBox6.setBackground(new java.awt.Color(0, 0, 0));
+        jCheckBox6.setBackground(new java.awt.Color(255, 255, 255));
+        jCheckBox6.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBox6.setBorder(null);
         jCheckBox6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/celana.png"))); // NOI18N
         jCheckBox6.addActionListener(this::jCheckBox6ActionPerformed);
 
@@ -115,7 +117,7 @@ public class frame2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jCheckBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +246,7 @@ public class frame2 extends javax.swing.JFrame {
                 javax.swing.JOptionPane.WARNING_MESSAGE);
         } else {
             // Lanjut ke halaman berikutnya
-            registrasi next = new registrasi();
+            dashboard next = new dashboard();
             next.setVisible(true);
             this.dispose();
         }

@@ -7,8 +7,8 @@ package form;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+//import java.sql.ResultSet;
+//import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import koneksi.koneksi;
@@ -121,7 +121,7 @@ public class dashboard extends javax.swing.JFrame {
                                 .addComponent(jLabel8))
                             .addComponent(jCheckBox1)
                             .addComponent(jTextField1))
-                        .addGap(55, 198, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)))
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -195,7 +195,7 @@ public class dashboard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         // === Logika login langsung di sini, tanpa method baru ===
-  String email = jTextField1.getText().trim();
+    String email = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword());
 
         if (email.isEmpty() || password.isEmpty()) {
@@ -244,7 +244,7 @@ public class dashboard extends javax.swing.JFrame {
 
                 int result = ps.executeUpdate();
                 if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
+                    JOptionPane.showMessageDialog(this, "Login berhasil! Silahkan login.");
                     this.dispose();
                     new form.registrasi().setVisible(true);
                 } else {
