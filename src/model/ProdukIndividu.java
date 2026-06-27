@@ -9,7 +9,7 @@ package model;
  * @author LOQ
  */
 public class ProdukIndividu extends Produk{
-     public ProdukIndividu(int id, String nama, double harga) {
+     public ProdukIndividu(int id, String nama, double harga){
         super(id, nama, harga);
     }
 

@@ -10,7 +10,7 @@ package model;
  */
 public class ProdukBundle extends Produk{
     
-    public ProdukBundle(int id, String nama, double harga) {
+    public ProdukBundle(int id, String nama, double harga){
         super(id, nama, harga);
     }
 

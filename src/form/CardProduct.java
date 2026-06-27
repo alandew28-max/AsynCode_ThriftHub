@@ -6,7 +6,7 @@ package form;
 import javax.swing.*;
 import java.awt.*;
 
-public class CardProduct extends JPanel {
+public class CardProduct extends JPanel{
 
     private JLabel GambarProduk;
     private JLabel NamaProduk;

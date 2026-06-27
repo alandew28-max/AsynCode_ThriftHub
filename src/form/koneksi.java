@@ -21,7 +21,7 @@ public class koneksi {
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Koneksi berhasil!");
         } catch (SQLException e) {
-            System.out.println("Koneksi gagal: " + e.getMessage());
+            System.out.println("Koneksi gagal: " + e.getMessage() );
         }
         return conn;
     }

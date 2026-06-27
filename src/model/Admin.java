@@ -12,7 +12,7 @@ import interfaces.KelolaProduk;
 public class Admin implements KelolaProduk {
 
      @Override
-    public void tambahProduk() {
+    public void tambahProduk(){
         System.out.println("Produk ditambahkan");
     }
 

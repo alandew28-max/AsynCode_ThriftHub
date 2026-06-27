@@ -4,7 +4,7 @@
  */
 package model;
 
-public class Produk {
+public class Produk{
 
     private int idProduk;
     private String namaProduk;
