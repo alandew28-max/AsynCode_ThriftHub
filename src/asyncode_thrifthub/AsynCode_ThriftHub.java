@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package asyncode_thrifthub;
-
+import form.Beranda;
 /**
  *
  * @author Alan Dewa
@@ -13,8 +13,13 @@ public class AsynCode_ThriftHub {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+    public static void main(String[] args){
+        
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Beranda().setVisible(true);
+        }
+    });
+}    }
     
-}
+
