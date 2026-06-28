@@ -47,6 +47,8 @@ public class IndexPage extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/image 5.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel2.setBackground(new java.awt.Color(44, 74, 59));
         jLabel2.setFont(new java.awt.Font("Sans Serif Collection", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(44, 74, 59));
@@ -76,12 +78,12 @@ public class IndexPage extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Gill Sans MT", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Mulai Jelajahi");
-        jButton1.setActionCommand("Mulai Jelajahi");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setFont(new java.awt.Font("Gill Sans MT", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(44, 74, 59));
-        jButton2.setText("Mulai Jelajahi");
+        jButton2.setText("Login");
         jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
@@ -161,7 +163,16 @@ public class IndexPage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+          new form.dashboard().setVisible(true);
+          this.dispose();
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+          new form.frame2().setVisible(true);
+          this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

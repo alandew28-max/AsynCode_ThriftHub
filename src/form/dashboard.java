@@ -199,18 +199,30 @@ public class dashboard extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword());
 
         if (email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!");
-            return;
+             JOptionPane.showMessageDialog(this,
+                "Semua kolom wajib diisi!",
+                "Peringatan",
+                JOptionPane.WARNING_MESSAGE);
+                return;
         }
+        
 
         if (!email.contains("@")) {
-            JOptionPane.showMessageDialog(this, "Email yang anda masukan kurang lengkap");
-            return;
+             JOptionPane.showMessageDialog(this,
+                "Email yang anda masukkan kurang lengkap!",
+                "Peringatan",
+                JOptionPane.WARNING_MESSAGE);
+               return;
         }
 
         if (password.length() <= 8) {
-            JOptionPane.showMessageDialog(this, "Kata sandi harus lebih dari 8 karakter!");
-            return;
+                JOptionPane.showMessageDialog(
+                   this,
+                   "Kata sandi minimal harus 8 karakter!",
+                   "Peringatan",
+                   JOptionPane.WARNING_MESSAGE
+               );
+               return;
         }
 
         // Hash password dengan SHA-256 supaya password asli tidak pernah
@@ -246,7 +258,7 @@ public class dashboard extends javax.swing.JFrame {
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "Login berhasil! Silahkan login.");
                     this.dispose();
-                    new form.registrasi().setVisible(true);
+                    new form.Beranda().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
                 }

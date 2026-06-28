@@ -242,7 +242,7 @@ public class registrasi extends javax.swing.JFrame {
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
                     this.dispose();
-                    new form.dashboard().setVisible(true);
+                    new form.Beranda().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
                 }
