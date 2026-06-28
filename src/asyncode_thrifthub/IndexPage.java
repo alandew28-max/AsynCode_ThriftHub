@@ -5,6 +5,8 @@
 package asyncode_thrifthub;
 import form.Beranda;
 import form.dashboard;
+import form.frame2;
+
 /**
  *
  * @author Sulistio
@@ -46,6 +48,8 @@ public class IndexPage extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/image 5.png"))); // NOI18N
         jLabel1.setText("jLabel1");
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setBackground(new java.awt.Color(44, 74, 59));
         jLabel2.setFont(new java.awt.Font("Sans Serif Collection", 0, 14)); // NOI18N
@@ -160,16 +164,23 @@ public class IndexPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+          new form.dashboard().setVisible(true);
+          this.dispose();
+
     dashboard login = new dashboard();
     login.setLocationRelativeTo(null);
-    login.setVisible(true);
     this.dispose();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    Beranda beranda = new Beranda();
-    beranda.setLocationRelativeTo(null);
-    beranda.setVisible(true);
+
+        // TODO add your handling code here:
+          new form.frame2().setVisible(true);
+          this.dispose();
+    frame2 frame2 = new frame2();
+    frame2.setLocationRelativeTo(null);
     this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

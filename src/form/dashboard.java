@@ -197,78 +197,49 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        // === Logika login langsung di sini, tanpa method baru ===
-                                            
-    String email = jTextField1.getText().trim();
-    String password = new String(jPasswordField1.getPassword());
+        String email = jTextField1.getText().trim();    
+        String password = new String(jPasswordField1.getPassword());
 
     if (email.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!");
+        JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         return;
     }
-
     if (!email.contains("@")) {
-        JOptionPane.showMessageDialog(this, "Email yang anda masukan kurang lengkap");
+        JOptionPane.showMessageDialog(this, "Email yang anda masukkan kurang lengkap!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         return;
     }
-
-    if (password.length() <= 8) {
-        JOptionPane.showMessageDialog(this, "Kata sandi harus lebih dari 8 karakter!");
-        return;
-    }
-
-    String hashedPassword = "";
-    try {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = digest.digest(password.getBytes("UTF-8"));
-
-        StringBuilder sb = new StringBuilder();
-        for (byte b : hashBytes) {
-            sb.append(String.format("%02x", b));
-        }
-
-        hashedPassword = sb.toString();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses kata sandi.");
+    if (password.length() < 8) {  // fix: < bukan <=
+        JOptionPane.showMessageDialog(this, "Kata sandi minimal harus 8 karakter!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
     String query = "SELECT * FROM users WHERE alamat_email = ? AND password = ?";
 
     try (Connection conn = koneksi.getConnection()) {
-
         if (conn == null) {
             JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
             return;
         }
-
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, email);
-            ps.setString(2, hashedPassword);
+            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-    Session.emailLogin = rs.getString("alamat_email");
-    Session.roleLogin = rs.getString("role");
-
-    JOptionPane.showMessageDialog(this, "Login berhasil!");
-
-    this.dispose();
-    new form.Beranda().setVisible(true);
-} else {
+                Session.emailLogin = rs.getString("alamat_email");
+                Session.roleLogin = rs.getString("role");
+                JOptionPane.showMessageDialog(this, "Login berhasil!");
+                this.dispose();
+                new form.Beranda().setVisible(true);
+            } else {
                 JOptionPane.showMessageDialog(this, "Email atau password salah!");
             }
-
             rs.close();
         }
-
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
     }
-
-    
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

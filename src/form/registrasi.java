@@ -175,86 +175,58 @@ public class registrasi extends javax.swing.JFrame {
         String email = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword());
         String loginSebagai = jComboBox1.getSelectedItem().toString();
-        String role = jComboBox1.getSelectedItem().toString();
 
-        if (email.isEmpty() || password.isEmpty() || loginSebagai.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Semua kolom wajib diisi!",
-                "Peringatan",
-                JOptionPane.WARNING_MESSAGE);
-                return;
-        }
-
-         if (!email.contains("@")) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Email yang anda masukkan kurang lengkap!",
-                "Peringatan",
-                JOptionPane.WARNING_MESSAGE
-                );
-               return;
-           }
-
-           if (password.length() < 8) {
-               JOptionPane.showMessageDialog(
-                   this,
-                   "Kata sandi minimal harus 8 karakter!",
-                   "Peringatan",
-                   JOptionPane.WARNING_MESSAGE
-               );
-               return;
-           }
-
-        // Hash password dengan SHA-256 supaya password asli tidak pernah
-        // tersimpan/terlihat dalam bentuk teks biasa di database (admin pun tidak bisa melihatnya)
-        String hashedPassword = "***";
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(password.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            hashedPassword = sb.toString();
-        } catch (Exception e) {
-            logger.log(java.util.logging.Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(
-                this,
-                "Terjadi kesalahan saat memproses kata sandi.",
-                "Peringatan",
-                JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        // Sesuai struktur tabel users: id_user, alamat_email, password, role
-        String query = "INSERT INTO users (alamat_email, password, role) VALUES (?, ?, ?)";
-
-try (Connection conn = koneksi.getConnection()) {
-    if (conn == null) {
-        JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
+    if (email.isEmpty() || password.isEmpty() || loginSebagai.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Semua kolom wajib diisi!",
+            "Peringatan",
+            JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, email);
-        ps.setString(2, hashedPassword);
-        ps.setString(3, loginSebagai);
-
-        int result = ps.executeUpdate();
-
-        if (result > 0) {
-            JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
-            this.dispose();
-            new form.dashboard().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
-        }
+    if (!email.contains("@")) {
+        JOptionPane.showMessageDialog(this,
+            "Email yang anda masukkan kurang lengkap!",
+            "Peringatan",
+            JOptionPane.WARNING_MESSAGE);
+        return;
     }
-} catch (SQLException e) {
-    logger.log(java.util.logging.Level.SEVERE, null, e);
-    JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
-}   
+
+    if (password.length() < 8) {
+        JOptionPane.showMessageDialog(this,
+            "Kata sandi minimal harus 8 karakter!",
+            "Peringatan",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String query = "INSERT INTO users (alamat_email, password, role) VALUES (?, ?, ?)";
+
+    try (Connection conn = koneksi.getConnection()) {
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
+            return;
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, email);
+            ps.setString(2, password); // langsung tanpa hash
+            ps.setString(3, loginSebagai);
+
+            int result = ps.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
+                this.dispose();
+                new form.dashboard().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
+            }
+        }
+    } catch (SQLException e) {
+        logger.log(java.util.logging.Level.SEVERE, null, e);
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

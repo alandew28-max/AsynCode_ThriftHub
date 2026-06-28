@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package form;
+import asyncode_thrifthub.Profile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import asyncode_thrifthub.ProfilePage;
 import asyncode_thrifthub.Session;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -577,7 +577,7 @@ private void setupBannerPanel() {
     }//GEN-LAST:event_KemejaActionPerformed
 
     private void ProfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfilMouseClicked
-    ProfilePage profile = new ProfilePage();
+    Profile profile = new Profile();
     profile.setLocationRelativeTo(null);
     profile.setVisible(true);
     this.dispose();
