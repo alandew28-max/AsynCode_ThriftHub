@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package asyncode_thrifthub;
+import form.Beranda;
+import form.dashboard;
+import form.frame2;
 
 /**
  *
@@ -40,7 +43,6 @@ public class IndexPage extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -103,7 +105,7 @@ public class IndexPage extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +149,7 @@ public class IndexPage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1098, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1097, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -166,12 +168,20 @@ public class IndexPage extends javax.swing.JFrame {
           new form.dashboard().setVisible(true);
           this.dispose();
 
+    dashboard login = new dashboard();
+    login.setLocationRelativeTo(null);
+    this.dispose();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         // TODO add your handling code here:
           new form.frame2().setVisible(true);
           this.dispose();
+    frame2 frame2 = new frame2();
+    frame2.setLocationRelativeTo(null);
+    this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

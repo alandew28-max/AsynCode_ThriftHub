@@ -79,7 +79,14 @@ public class TambahProduk extends javax.swing.JFrame {
     private void loadHistoryProduk() {
     try {
         panelHistory.removeAll();
-        panelHistory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 15));
+
+        // lebar ini bikin maksimal 4 produk per baris
+        int lebarPanel = 780;
+        int jarak = 15;
+
+        panelHistory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, jarak, jarak));
+        panelHistory.setPreferredSize(new java.awt.Dimension(lebarPanel, 260));
+        panelHistory.setMinimumSize(new java.awt.Dimension(lebarPanel, 260));
 
         Connection conn = koneksi.getConnection();
 
@@ -88,57 +95,70 @@ public class TambahProduk extends javax.swing.JFrame {
         PreparedStatement pst = conn.prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
 
-        while(rs.next()) {
+        while (rs.next()) {
 
-    javax.swing.JPanel card = new javax.swing.JPanel();
-    card.setPreferredSize(new java.awt.Dimension(170, 240));
-    card.setBackground(java.awt.Color.WHITE);
-    card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
+            javax.swing.JPanel card = new javax.swing.JPanel();
+            card.setPreferredSize(new java.awt.Dimension(170, 240));
+            card.setBackground(java.awt.Color.WHITE);
+            card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
 
-    card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-        javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)),
-        javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)
-    ));
+            card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)),
+                    javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            ));
 
-    javax.swing.JLabel gambar = new javax.swing.JLabel();
-    gambar.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-    gambar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    gambar.setPreferredSize(new java.awt.Dimension(140, 140));
-    gambar.setMaximumSize(new java.awt.Dimension(140, 140));
+            javax.swing.JLabel gambar = new javax.swing.JLabel();
+            gambar.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+            gambar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            gambar.setPreferredSize(new java.awt.Dimension(140, 140));
+            gambar.setMaximumSize(new java.awt.Dimension(140, 140));
 
-    ImageIcon icon = new ImageIcon(rs.getString("gambar"));
-    Image imgProduk = icon.getImage().getScaledInstance(
-            140,
-            140,
-            Image.SCALE_SMOOTH
-    );
-    gambar.setIcon(new ImageIcon(imgProduk));
+            ImageIcon icon = new ImageIcon(rs.getString("gambar"));
+            Image imgProduk = icon.getImage().getScaledInstance(
+                    140,
+                    140,
+                    Image.SCALE_SMOOTH
+            );
+            gambar.setIcon(new ImageIcon(imgProduk));
 
-    javax.swing.JLabel nama = new javax.swing.JLabel(
-            rs.getString("nama_produk"),
-            javax.swing.SwingConstants.CENTER
-    );
-    nama.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-    nama.setMaximumSize(new java.awt.Dimension(150, 25));
+            javax.swing.JLabel nama = new javax.swing.JLabel(
+                    rs.getString("nama_produk"),
+                    javax.swing.SwingConstants.CENTER
+            );
+            nama.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+            nama.setMaximumSize(new java.awt.Dimension(150, 25));
 
-    javax.swing.JLabel harga = new javax.swing.JLabel(
-            "Rp " + rs.getString("harga"),
-            javax.swing.SwingConstants.CENTER
-    );
-    harga.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-    harga.setMaximumSize(new java.awt.Dimension(150, 25));
-    harga.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+            javax.swing.JLabel harga = new javax.swing.JLabel(
+                    "Rp " + rs.getString("harga"),
+                    javax.swing.SwingConstants.CENTER
+            );
+            harga.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+            harga.setMaximumSize(new java.awt.Dimension(150, 25));
+            harga.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
 
-    card.add(gambar);
-    card.add(javax.swing.Box.createVerticalStrut(8));
-    card.add(nama);
-    card.add(javax.swing.Box.createVerticalStrut(4));
-    card.add(harga);
+            card.add(gambar);
+            card.add(javax.swing.Box.createVerticalStrut(8));
+            card.add(nama);
+            card.add(javax.swing.Box.createVerticalStrut(4));
+            card.add(harga);
 
-    panelHistory.add(card);
-}
+            panelHistory.add(card);
+        }
 
-    } catch(Exception e) {
+        int jumlahProduk = panelHistory.getComponentCount();
+        int jumlahBaris = (int) Math.ceil(jumlahProduk / 4.0);
+        int tinggiPanel = jumlahBaris * 270;
+
+        panelHistory.setPreferredSize(new java.awt.Dimension(lebarPanel, tinggiPanel));
+        panelHistory.setMinimumSize(new java.awt.Dimension(lebarPanel, tinggiPanel));
+
+        panelHistory.revalidate();
+        panelHistory.repaint();
+
+        jPanel1.revalidate();
+        jPanel1.repaint();
+
+    } catch (Exception e) {
         e.printStackTrace();
     }
 }
@@ -188,11 +208,11 @@ public class TambahProduk extends javax.swing.JFrame {
         DeskripsiProduk = new javax.swing.JTextField();
         Kategori = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        panelHistory = new javax.swing.JPanel();
         Browse = new javax.swing.JLabel();
         img = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         kembali = new javax.swing.JLabel();
+        panelHistory = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,19 +254,6 @@ public class TambahProduk extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("History Produk");
 
-        panelHistory.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout panelHistoryLayout = new javax.swing.GroupLayout(panelHistory);
-        panelHistory.setLayout(panelHistoryLayout);
-        panelHistoryLayout.setHorizontalGroup(
-            panelHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 901, Short.MAX_VALUE)
-        );
-        panelHistoryLayout.setVerticalGroup(
-            panelHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
-        );
-
         Browse.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Browse.setText("Browse");
         Browse.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -267,46 +274,47 @@ public class TambahProduk extends javax.swing.JFrame {
             }
         });
 
+        panelHistory.setBackground(new java.awt.Color(255, 255, 255));
+        panelHistory.setLayout(new java.awt.GridLayout());
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(294, 294, 294)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(NamaProduk)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HargaProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Kategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DeskripsiProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(Browse, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(GambarProduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(Tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(16, 16, 16)
+                            .addComponent(kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(294, 294, 294)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(NamaProduk)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(HargaProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Kategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(57, 57, 57)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(DeskripsiProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(32, 32, 32)
+                                    .addComponent(Browse, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(97, 97, 97)
+                            .addComponent(GambarProduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(114, 114, 114)
+                            .addComponent(Tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(70, 70, 70)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(372, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(579, Short.MAX_VALUE)
@@ -345,14 +353,14 @@ public class TambahProduk extends javax.swing.JFrame {
                 .addComponent(Tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(623, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(62, 62, 62)
                     .addComponent(jLabel7)
-                    .addContainerGap(1323, Short.MAX_VALUE)))
+                    .addContainerGap(1377, Short.MAX_VALUE)))
         );
 
         jScrollPane1.setViewportView(jPanel1);
