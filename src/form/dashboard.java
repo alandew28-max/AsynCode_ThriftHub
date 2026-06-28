@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import koneksi.koneksi;
+import java.sql.ResultSet;
+import asyncode_thrifthub.Session;
 
 /**
  *
@@ -26,6 +28,7 @@ public class dashboard extends javax.swing.JFrame {
      */
     public dashboard() {
         initComponents();
+        getRootPane().setDefaultButton(jButton1);
     }
 
     /**
@@ -102,10 +105,6 @@ public class dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(161, 161, 161))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(99, 99, 99)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -121,7 +120,11 @@ public class dashboard extends javax.swing.JFrame {
                                 .addComponent(jLabel8))
                             .addComponent(jCheckBox1)
                             .addComponent(jTextField1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(169, 169, 169)))
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,13 +147,13 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addGap(137, 137, 137))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,7 +173,7 @@ public class dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
+    jButton1.doClick();
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -189,72 +192,82 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+    jPasswordField1.requestFocus();      
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         // === Logika login langsung di sini, tanpa method baru ===
+                                            
     String email = jTextField1.getText().trim();
-        String password = new String(jPasswordField1.getPassword());
+    String password = new String(jPasswordField1.getPassword());
 
-        if (email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!");
+    if (email.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Semua kolom wajib diisi!");
+        return;
+    }
+
+    if (!email.contains("@")) {
+        JOptionPane.showMessageDialog(this, "Email yang anda masukan kurang lengkap");
+        return;
+    }
+
+    if (password.length() <= 8) {
+        JOptionPane.showMessageDialog(this, "Kata sandi harus lebih dari 8 karakter!");
+        return;
+    }
+
+    String hashedPassword = "";
+    try {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(password.getBytes("UTF-8"));
+
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashBytes) {
+            sb.append(String.format("%02x", b));
+        }
+
+        hashedPassword = sb.toString();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses kata sandi.");
+        return;
+    }
+
+    String query = "SELECT * FROM users WHERE alamat_email = ? AND password = ?";
+
+    try (Connection conn = koneksi.getConnection()) {
+
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
             return;
         }
 
-        if (!email.contains("@")) {
-            JOptionPane.showMessageDialog(this, "Email yang anda masukan kurang lengkap");
-            return;
-        }
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, email);
+            ps.setString(2, hashedPassword);
 
-        if (password.length() <= 8) {
-            JOptionPane.showMessageDialog(this, "Kata sandi harus lebih dari 8 karakter!");
-            return;
-        }
+            ResultSet rs = ps.executeQuery();
 
-        // Hash password dengan SHA-256 supaya password asli tidak pernah
-        // tersimpan/terlihat dalam bentuk teks biasa di database (siapa pun tidak bisa melihatnya)
-        String hashedPassword = "";
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(password.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
+            if (rs.next()) {
+    Session.emailLogin = rs.getString("alamat_email");
+    Session.roleLogin = rs.getString("role");
+
+    JOptionPane.showMessageDialog(this, "Login berhasil!");
+
+    this.dispose();
+    new form.Beranda().setVisible(true);
+} else {
+                JOptionPane.showMessageDialog(this, "Email atau password salah!");
             }
-            hashedPassword = sb.toString();
-        } catch (Exception e) {
-            logger.log(java.util.logging.Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memproses kata sandi.");
-            return;
+
+            rs.close();
         }
 
-        // Sesuai struktur tabel users: id_user, alamat_email, password
-        String query = "INSERT INTO users (alamat_email, password) VALUES (?, ?)";
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
+    }
 
-        try (Connection conn = koneksi.getConnection()) {
-            if (conn == null) {
-                JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
-                return;
-            }
-            try (PreparedStatement ps = conn.prepareStatement(query)) {
-                ps.setString(1, email);
-                ps.setString(2, hashedPassword);
-
-                int result = ps.executeUpdate();
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "Login berhasil! Silahkan login.");
-                    this.dispose();
-                    new form.registrasi().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
-                }
-            }
-        } catch (SQLException e) {
-            logger.log(java.util.logging.Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
-        }
     
     }//GEN-LAST:event_jButton1ActionPerformed
 

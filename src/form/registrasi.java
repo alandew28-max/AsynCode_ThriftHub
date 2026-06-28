@@ -31,6 +31,7 @@ public class registrasi extends javax.swing.JFrame {
         "User",
         "Admin"
         }));
+        getRootPane().setDefaultButton(jButton1);
     }
 
     /**
@@ -83,7 +84,7 @@ public class registrasi extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 102, 51));
         jButton1.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Login");
+        jButton1.setText("Daftar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
@@ -157,7 +158,7 @@ public class registrasi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+    jPasswordField1.requestFocus();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -174,6 +175,7 @@ public class registrasi extends javax.swing.JFrame {
         String email = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword());
         String loginSebagai = jComboBox1.getSelectedItem().toString();
+        String role = jComboBox1.getSelectedItem().toString();
 
         if (email.isEmpty() || password.isEmpty() || loginSebagai.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -226,31 +228,33 @@ public class registrasi extends javax.swing.JFrame {
         }
 
         // Sesuai struktur tabel users: id_user, alamat_email, password, role
-        String query = "INSERT INTO registrasi (alamat_email, password, roles) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (alamat_email, password, role) VALUES (?, ?, ?)";
 
-        try (Connection conn = koneksi.getConnection()) {
-            if (conn == null) {
-                JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
-                return;
-            }
-            try (PreparedStatement ps = conn.prepareStatement(query)) {
-                ps.setString(1, email);
-                ps.setString(2, hashedPassword); // password tersimpan dalam bentuk hash
-                ps.setString(3, loginSebagai);
+try (Connection conn = koneksi.getConnection()) {
+    if (conn == null) {
+        JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
+        return;
+    }
 
-                int result = ps.executeUpdate();
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
-                    this.dispose();
-                    new form.dashboard().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
-                }
-            }
-        } catch (SQLException e) {
-            logger.log(java.util.logging.Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, email);
+        ps.setString(2, hashedPassword);
+        ps.setString(3, loginSebagai);
+
+        int result = ps.executeUpdate();
+
+        if (result > 0) {
+            JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silahkan login.");
+            this.dispose();
+            new form.dashboard().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Registrasi gagal, coba lagi.");
         }
+    }
+} catch (SQLException e) {
+    logger.log(java.util.logging.Level.SEVERE, null, e);
+    JOptionPane.showMessageDialog(this, "Terjadi kesalahan database: " + e.getMessage());
+}   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
