@@ -188,7 +188,12 @@ private void setupBannerPanel() {
     private void loadProduk(String kategori) {
     try {
         panelProduk.removeAll();
-        panelProduk.setLayout(new java.awt.GridLayout(0, 4, 20, 20));
+
+        int lebarPanel = 982;
+        int jarak = 20;
+
+        panelProduk.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, jarak, jarak));
+        panelProduk.setPreferredSize(new java.awt.Dimension(lebarPanel, 260));
 
         Connection conn = koneksi.getConnection();
 
@@ -209,15 +214,28 @@ private void setupBannerPanel() {
         ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
+            int idProduk = rs.getInt("id_produk");
+
             javax.swing.JPanel card = new javax.swing.JPanel();
             card.setPreferredSize(new java.awt.Dimension(170, 230));
+            card.setMaximumSize(new java.awt.Dimension(170, 230));
             card.setBackground(java.awt.Color.WHITE);
             card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
 
-            card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+            java.awt.Color warnaNormal = java.awt.Color.WHITE;
+            java.awt.Color warnaHover = new java.awt.Color(245, 250, 247);
+
+            javax.swing.border.Border borderNormal = javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)),
                     javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)
-            ));
+            );
+
+            javax.swing.border.Border borderHover = javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createLineBorder(new java.awt.Color(44, 74, 59), 2),
+                    javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            );
+
+            card.setBorder(borderNormal);
 
             JLabel gambar = new JLabel();
             gambar.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
@@ -255,11 +273,64 @@ private void setupBannerPanel() {
             card.add(javax.swing.Box.createVerticalStrut(5));
             card.add(harga);
 
+            card.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            gambar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            nama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            harga.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+            java.awt.event.MouseAdapter efekProduk = new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    card.setBackground(warnaHover);
+                    card.setBorder(borderHover);
+                    card.repaint();
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    card.setBackground(warnaNormal);
+                    card.setBorder(borderNormal);
+                    card.repaint();
+                }
+
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    DeskkripsiProduk detail = new DeskkripsiProduk(idProduk);
+                    detail.setLocationRelativeTo(null);
+                    detail.setVisible(true);
+                    dispose();
+                }
+            };
+
+            card.addMouseListener(efekProduk);
+            gambar.addMouseListener(efekProduk);
+            nama.addMouseListener(efekProduk);
+            harga.addMouseListener(efekProduk);
+
             panelProduk.add(card);
         }
 
+        int jumlahProduk = panelProduk.getComponentCount();
+        int jumlahBaris = (int) Math.ceil(jumlahProduk / 4.0);
+
+        if (jumlahBaris < 1) {
+            jumlahBaris = 1;
+        }
+
+        int tinggiPanel = jumlahBaris * 260;
+
+        panelProduk.setPreferredSize(new java.awt.Dimension(lebarPanel, tinggiPanel));
+        panelProduk.setMinimumSize(new java.awt.Dimension(lebarPanel, tinggiPanel));
+
         panelProduk.revalidate();
         panelProduk.repaint();
+
+        jPanel1.revalidate();
+        jPanel1.repaint();
+
+        rs.close();
+        pst.close();
+        conn.close();
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
@@ -459,8 +530,9 @@ private void setupBannerPanel() {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
