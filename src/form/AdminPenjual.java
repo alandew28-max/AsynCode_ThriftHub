@@ -20,6 +20,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Component;
 import java.awt.Dimension;
+import asyncode_thrifthub.Session;
+import java.io.File;
+
 /**
  *
  * @author LOQ
@@ -34,9 +37,115 @@ public class AdminPenjual extends javax.swing.JFrame {
      */
     public AdminPenjual() {
         initComponents();
-        setupBannerPanel();
-        loadProduk(null);
+
+    setupBannerPanel();
+    loadNamaToko();
+    setupCursor();
+    loadProduk(null);
+    loadBanner();
     }
+    private void loadBanner() {
+    try {
+        Connection conn = koneksi.getConnection();
+
+        String sql = "SELECT banner_toko FROM users WHERE alamat_email = ? LIMIT 1";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, Session.emailLogin);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String pathBanner = rs.getString("banner_toko");
+
+            if (pathBanner != null && !pathBanner.trim().isEmpty()) {
+                tampilkanBanner(pathBanner);
+            }
+        }
+
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan banner toko: " + e.getMessage());
+    }
+}
+    private void tampilkanBanner(String path) {
+    File file = new File(path);
+
+    if (!file.exists()) {
+        return;
+    }
+
+    ImageIcon icon = new ImageIcon(path);
+
+    Image gambar = icon.getImage().getScaledInstance(
+            901,
+            220,
+            Image.SCALE_SMOOTH
+    );
+
+    lblBanner.setIcon(new ImageIcon(gambar));
+    lblBanner.setBounds(0, 0, 901, 220);
+
+    jPanel2.setComponentZOrder(lblBanner, jPanel2.getComponentCount() - 1);
+    jPanel2.setComponentZOrder(Edit, 0);
+    jPanel2.setComponentZOrder(NamaToko, 0);
+    jPanel2.setComponentZOrder(jLabel3, 0);
+    jPanel2.setComponentZOrder(jLabel6, 0);
+    jPanel2.setComponentZOrder(jLabel4, 0);
+    jPanel2.setComponentZOrder(jLabel5, 0);
+    jPanel2.setComponentZOrder(jLabel2, 0);
+
+    jPanel2.revalidate();
+    jPanel2.repaint();
+}
+    private void setupCursor() {
+    java.awt.Cursor cursorTangan = new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR);
+
+    // JLabel yang bisa diklik
+    Kembali.setCursor(cursorTangan);
+    Logout.setCursor(cursorTangan);
+    TambahProduk.setCursor(cursorTangan);
+    Edit.setCursor(cursorTangan);
+
+    // JButton kategori
+    Semua.setCursor(cursorTangan);
+    Kaos.setCursor(cursorTangan);
+    Celana.setCursor(cursorTangan);
+    Hoodie.setCursor(cursorTangan);
+    Jaket.setCursor(cursorTangan);
+    Sepatu.setCursor(cursorTangan);
+    Kemeja.setCursor(cursorTangan);
+}
+    private void loadNamaToko() {
+    try {
+        Connection conn = koneksi.getConnection();
+
+        String sql = "SELECT nama FROM users WHERE alamat_email = ? LIMIT 1";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, Session.emailLogin);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String nama = rs.getString("nama");
+
+            if (nama != null && !nama.trim().isEmpty()) {
+                NamaToko.setText(nama);
+            } else {
+                NamaToko.setText("Nama Toko");
+            }
+        }
+
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan nama toko: " + e.getMessage());
+    }
+}
     private void setupBannerPanel() {
     int lebar = 901;
     int tinggi = 220;
@@ -58,7 +167,7 @@ public class AdminPenjual extends javax.swing.JFrame {
 
     Edit.setBounds(855, 10, 40, 25);
 
-    jLabel1.setBounds(14, 120, 250, 42);
+    NamaToko.setBounds(14, 120, 250, 42);
 
     jLabel3.setBounds(14, 170, 32, 32);
     jLabel6.setBounds(50, 170, 32, 32);
@@ -68,7 +177,7 @@ public class AdminPenjual extends javax.swing.JFrame {
 
     jPanel2.setComponentZOrder(lblBanner, jPanel2.getComponentCount() - 1);
     jPanel2.setComponentZOrder(Edit, 0);
-    jPanel2.setComponentZOrder(jLabel1, 0);
+    jPanel2.setComponentZOrder(NamaToko, 0);
     jPanel2.setComponentZOrder(jLabel3, 0);
     jPanel2.setComponentZOrder(jLabel6, 0);
     jPanel2.setComponentZOrder(jLabel4, 0);
@@ -105,7 +214,7 @@ private void loadProduk(String kategori) {
         kategoriAktif = kategori;
 
         jPanel3.removeAll();
-        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
+        jPanel3.setLayout(new java.awt.GridLayout(0, 4, 20, 20));
 
         Connection conn = koneksi.getConnection();
 
@@ -258,7 +367,7 @@ private void loadProduk(String kategori) {
         Sepatu = new javax.swing.JButton();
         Kemeja = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        NamaToko = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -271,6 +380,8 @@ private void loadProduk(String kategori) {
         TambahProduk = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         Kaos.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
         Kaos.setForeground(new java.awt.Color(44, 74, 59));
@@ -313,8 +424,8 @@ private void loadProduk(String kategori) {
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
-        jLabel1.setText("NamaToko");
+        NamaToko.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        NamaToko.setText("NamaToko");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/star.png"))); // NOI18N
 
@@ -339,23 +450,25 @@ private void loadProduk(String kategori) {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)))
-                .addContainerGap(722, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NamaToko)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2)))
+                        .addGap(0, 716, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -363,9 +476,9 @@ private void loadProduk(String kategori) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Edit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addComponent(NamaToko, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,18 +488,8 @@ private void loadProduk(String kategori) {
                 .addGap(7, 7, 7))
         );
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 901, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
-        );
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new java.awt.GridLayout());
 
         Kembali.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home.png"))); // NOI18N
         Kembali.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -396,6 +499,11 @@ private void loadProduk(String kategori) {
         });
 
         Logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/door.png"))); // NOI18N
+        Logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LogoutMouseClicked(evt);
+            }
+        });
 
         TambahProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/plus.png"))); // NOI18N
         TambahProduk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -419,27 +527,26 @@ private void loadProduk(String kategori) {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
+                        .addGap(96, 96, 96)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(Semua, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Kaos, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Celana, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Hoodie, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Jaket, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Sepatu, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Kemeja, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(Semua, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Kaos, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Celana, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Hoodie, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Jaket, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Sepatu, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Kemeja, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(597, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -452,7 +559,7 @@ private void loadProduk(String kategori) {
                     .addComponent(TambahProduk))
                 .addGap(15, 15, 15)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Semua, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Kaos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -461,9 +568,9 @@ private void loadProduk(String kategori) {
                     .addComponent(Jaket, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Sepatu, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Kemeja, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -473,9 +580,8 @@ private void loadProduk(String kategori) {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1082, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1082, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,7 +632,7 @@ private void loadProduk(String kategori) {
     }//GEN-LAST:event_KemejaActionPerformed
 
     private void EditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditMouseClicked
-   JFileChooser chooser = new JFileChooser();
+    JFileChooser chooser = new JFileChooser();
 
     FileNameExtensionFilter filter = new FileNameExtensionFilter(
             "File Gambar",
@@ -540,31 +646,37 @@ private void loadProduk(String kategori) {
     if (hasil == JFileChooser.APPROVE_OPTION) {
         String path = chooser.getSelectedFile().getAbsolutePath();
 
-        ImageIcon icon = new ImageIcon(path);
+        try {
+            Connection conn = koneksi.getConnection();
 
-        Image gambar = icon.getImage().getScaledInstance(
-                901,
-                220,
-                Image.SCALE_SMOOTH
-        );
+            String sql = "UPDATE users SET banner_toko = ? WHERE alamat_email = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, path);
+            pst.setString(2, Session.emailLogin);
 
-        lblBanner.setIcon(new ImageIcon(gambar));
-        lblBanner.setBounds(0, 0, 901, 220);
+            int result = pst.executeUpdate();
 
-        jPanel2.setComponentZOrder(lblBanner, jPanel2.getComponentCount() - 1);
-        jPanel2.setComponentZOrder(Edit, 0);
-        jPanel2.setComponentZOrder(jLabel1, 0);
-        jPanel2.setComponentZOrder(jLabel3, 0);
-        jPanel2.setComponentZOrder(jLabel6, 0);
-        jPanel2.setComponentZOrder(jLabel4, 0);
-        jPanel2.setComponentZOrder(jLabel5, 0);
-        jPanel2.setComponentZOrder(jLabel2, 0);
+            if (result > 0) {
+                tampilkanBanner(path);
+                JOptionPane.showMessageDialog(this, "Banner berhasil disimpan");
+            } else {
+                JOptionPane.showMessageDialog(this, "Akun tidak ditemukan");
+            }
 
-        jPanel2.revalidate();
-        jPanel2.repaint();
+            pst.close();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan banner: " + e.getMessage());
+        }
     }
 
+
     }//GEN-LAST:event_EditMouseClicked
+
+    private void LogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutMouseClicked
+asyncode_thrifthub.Logout.logout(this);
+    }//GEN-LAST:event_LogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -600,10 +712,10 @@ private void loadProduk(String kategori) {
     private javax.swing.JLabel Kembali;
     private javax.swing.JButton Kemeja;
     private javax.swing.JLabel Logout;
+    private javax.swing.JLabel NamaToko;
     private javax.swing.JButton Semua;
     private javax.swing.JButton Sepatu;
     private javax.swing.JLabel TambahProduk;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
