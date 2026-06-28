@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package form;
+import asyncode_thrifthub.Profile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import asyncode_thrifthub.ProfilePage;
 import asyncode_thrifthub.Session;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -320,7 +320,7 @@ private void setupBannerPanel() {
         );
 
         panelProduk.setBackground(new java.awt.Color(255, 255, 255));
-        panelProduk.setLayout(new java.awt.GridLayout());
+        panelProduk.setLayout(new java.awt.GridLayout(1, 0));
 
         Logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/door.png"))); // NOI18N
         Logout.setText("jLabel1");
@@ -425,10 +425,11 @@ private void setupBannerPanel() {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Logout)
-                    .addComponent(toko)
-                    .addComponent(Profil, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Profil, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Logout)
+                        .addComponent(toko)))
                 .addGap(18, 18, 18)
                 .addComponent(Banner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -504,7 +505,7 @@ private void setupBannerPanel() {
     }//GEN-LAST:event_KemejaActionPerformed
 
     private void ProfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfilMouseClicked
-    ProfilePage profile = new ProfilePage();
+    Profile profile = new Profile();
     profile.setLocationRelativeTo(null);
     profile.setVisible(true);
     this.dispose();
