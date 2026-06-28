@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package form;
+import javax.swing.JCheckBox;
+import javax.swing.BorderFactory;
+import java.awt.Color;
+import java.awt.Cursor;
 
 /**
  *
@@ -17,7 +21,51 @@ public class frame2 extends javax.swing.JFrame {
      */
     public frame2() {
         initComponents();
+        setupPilihanGaya();
     }
+    private void setupPilihanGaya() {
+    aturAwal(jCheckBox1);
+    aturAwal(jCheckBox2);
+    aturAwal(jCheckBox3);
+    aturAwal(jCheckBox4);
+    aturAwal(jCheckBox5);
+    aturAwal(jCheckBox6);
+}
+
+private void aturAwal(JCheckBox checkbox) {
+    checkbox.setOpaque(true);
+    checkbox.setContentAreaFilled(true);
+    checkbox.setBorderPainted(true);
+    checkbox.setFocusPainted(false);
+    checkbox.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+    updateTandaPilihan(checkbox);
+}
+
+private void updateTandaPilihan(JCheckBox checkbox) {
+    if (checkbox.isSelected()) {
+        checkbox.setBackground(new Color(30, 77, 58));
+        checkbox.setBorder(BorderFactory.createLineBorder(new Color(30, 77, 58), 5));
+    } else {
+        checkbox.setBackground(Color.WHITE);
+        checkbox.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
+    }
+
+    checkbox.repaint();
+}
+
+private int hitungPilihan() {
+    int jumlah = 0;
+
+    if (jCheckBox1.isSelected()) jumlah++;
+    if (jCheckBox2.isSelected()) jumlah++;
+    if (jCheckBox3.isSelected()) jumlah++;
+    if (jCheckBox4.isSelected()) jumlah++;
+    if (jCheckBox5.isSelected()) jumlah++;
+    if (jCheckBox6.isSelected()) jumlah++;
+
+    return jumlah;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,94 +210,47 @@ public class frame2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here: t-shrit
-        if (jCheckBox2.isSelected()) {
-            jCheckBox2.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
+        updateTandaPilihan(jCheckBox1);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here: kemeja
-        if (jCheckBox1.isSelected()) {
-            jCheckBox1.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
+            updateTandaPilihan(jCheckBox2);
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        // TODO add your handling code here: hoodie
-        if (jCheckBox5.isSelected()) {
-            jCheckBox5.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox5.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
+           updateTandaPilihan(jCheckBox5);
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
-        // TODO add your handling code here: celana
-        if (jCheckBox6.isSelected()) {
-            jCheckBox6.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox6.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
-
+            updateTandaPilihan(jCheckBox6);
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        // TODO add your handling code here:polo shrit
-        if (jCheckBox3.isSelected()) {
-            jCheckBox3.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
+            updateTandaPilihan(jCheckBox3);
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        // TODO add your handling code here: sepatu
-        if (jCheckBox4.isSelected()) {
-            jCheckBox4.setBackground(new java.awt.Color(30, 77, 58));
-            jCheckBox4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 77, 58), 2));
-        } else {
-            jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
-            jCheckBox4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        }
-        
+           updateTandaPilihan(jCheckBox4);
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-         int dipilih = 0;
-        if (jCheckBox2.isSelected()) dipilih++;
-        if (jCheckBox1.isSelected()) dipilih++;
-        if (jCheckBox3.isSelected()) dipilih++;
-        if (jCheckBox4.isSelected()) dipilih++;
-        if (jCheckBox5.isSelected()) dipilih++;
-        if (jCheckBox6.isSelected()) dipilih++;
- 
-        if (dipilih < 3) {
-            javax.swing.JOptionPane.showMessageDialog(this,
+    int dipilih = hitungPilihan();
+
+    if (dipilih < 3) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
                 "Pilih minimal 3 gaya terlebih dahulu!",
                 "Perhatian",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Lanjut ke halaman berikutnya
-            dashboard next = new dashboard();
-            next.setVisible(true);
-            this.dispose();
-        }
+                javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    dashboard next = new dashboard();
+    next.setLocationRelativeTo(null);
+    next.setVisible(true);
+    this.dispose();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
