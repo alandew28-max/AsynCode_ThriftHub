@@ -11,6 +11,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
+
+
 /**
  *
  * @author LOQ
@@ -185,7 +192,50 @@ public class TambahProduk extends javax.swing.JFrame {
         e.printStackTrace();
     }
 }
+    
+    
+private String simpanFileKeFolderUnggahan(String pathAsli) throws Exception {
+    if (pathAsli == null || pathAsli.trim().isEmpty()) {
+        throw new Exception("Gambar produk belum dipilih!");
+    }
 
+    Path source = Paths.get(pathAsli);
+
+    if (!Files.exists(source)) {
+        throw new Exception("File gambar tidak ditemukan: " + pathAsli);
+    }
+
+    Path folderUnggahan = Paths.get(
+            System.getProperty("user.dir"),
+            "unggahan"
+    );
+
+    Files.createDirectories(folderUnggahan);
+
+    Path sourceAbsolute = source.toAbsolutePath().normalize();
+    Path folderAbsolute = folderUnggahan.toAbsolutePath().normalize();
+
+    String namaFileAsli = source.getFileName().toString();
+
+    if (sourceAbsolute.startsWith(folderAbsolute)) {
+        return "unggahan/" + namaFileAsli;
+    }
+
+    String ekstensi = "";
+
+    int titik = namaFileAsli.lastIndexOf(".");
+    if (titik >= 0) {
+        ekstensi = namaFileAsli.substring(titik);
+    }
+
+    String namaFileBaru = "produk_" + System.currentTimeMillis() + ekstensi;
+
+    Path target = folderUnggahan.resolve(namaFileBaru);
+
+    Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+
+    return "unggahan/" + namaFileBaru;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -430,61 +480,70 @@ JFileChooser chooser = new JFileChooser();
 
     private void TambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahActionPerformed
     try {
-
         Connection conn = koneksi.getConnection();
 
-        String nama = NamaProduk.getText();
-String harga = HargaProduk.getText();
-String deskripsi = DeskripsiProduk.getText();
-String kategori = Kategori.getSelectedItem().toString();
-String gambar = img.getText();
+        String nama = NamaProduk.getText().trim();
+        String harga = HargaProduk.getText().trim();
+        String deskripsi = DeskripsiProduk.getText().trim();
+        String kategori = Kategori.getSelectedItem().toString();
+        String gambarAsli = img.getText().trim();
 
-PreparedStatement pst;
+        if (nama.isEmpty() || harga.isEmpty() || deskripsi.isEmpty() || gambarAsli.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Semua data produk wajib diisi!");
+            return;
+        }
 
-if (idEdit == -1) {
-    String sql = "INSERT INTO produk "
-            + "(nama_produk, harga, kategori, deskripsi, gambar, status) "
-            + "VALUES (?, ?, ?, ?, ?, ?)";
+        String gambar = simpanFileKeFolderUnggahan(gambarAsli);
 
-    pst = conn.prepareStatement(sql);
+        PreparedStatement pst;
 
-    pst.setString(1, nama);
-    pst.setString(2, harga);
-    pst.setString(3, kategori);
-    pst.setString(4, deskripsi);
-    pst.setString(5, gambar);
-    pst.setString(6, "aktif");
+        if (idEdit == -1) {
+            String sql = "INSERT INTO produk "
+                    + "(nama_produk, harga, kategori, deskripsi, gambar, status) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
 
-    pst.executeUpdate();
+            pst = conn.prepareStatement(sql);
 
-    JOptionPane.showMessageDialog(this, "Produk berhasil ditambahkan!");
+            pst.setString(1, nama);
+            pst.setString(2, harga);
+            pst.setString(3, kategori);
+            pst.setString(4, deskripsi);
+            pst.setString(5, gambar);
+            pst.setString(6, "aktif");
 
-} else {
-    String sql = "UPDATE produk SET "
-            + "nama_produk=?, harga=?, kategori=?, deskripsi=?, gambar=?, status='aktif' "
-            + "WHERE id_produk=?";
+            pst.executeUpdate();
 
-    pst = conn.prepareStatement(sql);
+            JOptionPane.showMessageDialog(this, "Produk berhasil ditambahkan!");
 
-    pst.setString(1, nama);
-    pst.setString(2, harga);
-    pst.setString(3, kategori);
-    pst.setString(4, deskripsi);
-    pst.setString(5, gambar);
-    pst.setInt(6, idEdit);
+        } else {
+            String sql = "UPDATE produk SET "
+                    + "nama_produk=?, harga=?, kategori=?, deskripsi=?, gambar=?, status='aktif' "
+                    + "WHERE id_produk=?";
 
-    pst.executeUpdate();
+            pst = conn.prepareStatement(sql);
 
-    JOptionPane.showMessageDialog(this, "Produk berhasil diupdate!");
-}
+            pst.setString(1, nama);
+            pst.setString(2, harga);
+            pst.setString(3, kategori);
+            pst.setString(4, deskripsi);
+            pst.setString(5, gambar);
+            pst.setInt(6, idEdit);
 
-new AdminPenjual().setVisible(true);
-this.dispose();
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Produk berhasil diupdate!");
+        }
+
+        pst.close();
+        conn.close();
+
+        AdminPenjual admin = new AdminPenjual();
+        admin.setLocationRelativeTo(null);
+        admin.setVisible(true);
+        this.dispose();
+
     } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(
-                this,
-                e.getMessage()
-        );
+        JOptionPane.showMessageDialog(this, e.getMessage());
     }
     }//GEN-LAST:event_TambahActionPerformed
 
